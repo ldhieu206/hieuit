@@ -1,0 +1,131 @@
+{% extends "home/admin/baseAdmin.html" %}
+    
+{% block content %}
+    <div class = "container">
+        {% csrf_token %}
+            <input id="csrf" style="display: none" value="{{ csrf_token }}">
+            <div class = "form-group">
+                <label for = "lopHoc">Mã Lớp Học</label>
+                <input type = "text" class = "form-control" id = "maLop" name = "maLop" placeholder = "Nhập lớp học">
+            </div>
+            <div class = "form-group">
+                <label for = "khoi">Tên Lớp</label>
+                <input type = "text" class = "form-control" id = "tenLop" name = "tenLop" placeholder = "Nhập Tên Lớp">
+            </div>
+            {% comment %} <div id="lichHoc">
+                {% for i in range56 %}
+                    <input type="checkbox" class="lh" name="l{{i}}" value="{{i}}">
+                {% endfor %}
+            </div> {% endcomment %}
+            <div id="lichHoc" class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th></th>
+                        <th>Thứ 2</th>
+                        <th>Thứ 3</th>
+                        <th>Thứ 4</th>
+                        <th>Thứ 5</th>
+                        <th>Thứ 6</th>
+                        <th>Thứ 7</th>
+                        <th>Chủ nhật</th>
+                    </tr>
+                    {% for k in range8 %}
+                    <tr>
+                        <th>Ca {{k}}</th>
+                            {% for i in range7 %}
+                                <td>
+                                    <input type="checkbox" class="lh" name="l{{i}}" value="{{i}}">
+                                </td>
+                            {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class = "">
+                <label for = "giaoVien_id">Chọn Giáo Viên</label>
+                <select id="giaoVien_id" class="form-select" multiple aria-label="multiple select example">
+                {% for item in dsGiaoVien %}
+                    <option value="{{item.maGV}}">{{item.maGV}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class = "form-group">
+                <label for = "giaoVien">Học Phí Ca</label>
+                <input type = "number" class = "form-control" id = "hocPhi_ca" name = "hocPhi_ca" placeholder = "Nhập Học Phí Ca">
+            </div>
+            <div class = "form-group">
+                <label for = "ngayBatDau">Ngày bắt đầu</label>
+                <input type = "date" class = "form-control" id = "ngayBatDau" name = "ngayBatDau" placeholder = "Nhập ngày bắt đầu">
+            </div>
+            <div class = "form-group">
+                <label for = "ngayKetThuc">Ngày kết thúc</label>
+                <input type = "date" class = "form-control" id = "ngayKetThuc" name = "ngayKetThuc" placeholder = "Nhập ngày kết thúc">
+            </div>
+            <div class = "form-group">
+                <label for = "monHoc">Trả Theo Khóa</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="traTheoKhoa" value="">
+                    <label class="form-check-label" for="inlineCheckbox1"></label>
+                </div>
+            </div>
+            <div class = "form-group">
+                <label for = "soLuong">Số lượng học viên Max</label>
+                <input type = "number" class = "form-control" id = "soLuongHocVienMax" name = "soLuongHocVienMax" placeholder = "Nhập số lượng Học Viên Max">
+            </div>
+            <div class = "form-group">
+                <label for = "hocPhi">Học phí đợt</label>
+                <input type = "number" class = "form-control" id = "hocPhi_dot" name = "hocPhi" placeholder = "Nhập học phí">
+            </div>
+            <div class = "form-group">
+                <label for = "hocPhi">Lương giáo viên ca</label>
+                <input type = "number" class = "form-control" id = "luongGV_ca" name = "luongGV_ca" placeholder = "Nhập học phí">
+            </div>
+            <button onclick="addLopHoc('{{maLop}}')" type = "submit" class = "btn btn-primary">Thêm</button>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function addLopHoc(maLop){
+        let dslh = [];
+        let ds = document.getElementsByClassName("lh");
+        for (let i = 0; i < ds.length; i++) {
+            if(ds[i].checked){
+                dslh.push(i);
+            }
+        }
+
+        var payload = new FormData();
+        payload.append('dslh', dslh);
+        payload.append('maLop', document.getElementById('maLop').value);
+        payload.append('tenLop', document.getElementById('tenLop').value);
+        payload.append('giaoVien_id', document.getElementById('giaoVien_id').value);
+        payload.append('hocPhi_ca', document.getElementById('hocPhi_ca').value);
+        payload.append('ngayBatDau', document.getElementById('ngayBatDau').value);
+        payload.append('ngayKetThuc', document.getElementById('ngayKetThuc').value);
+        payload.append('traTheoKhoa', document.getElementById('traTheoKhoa').checked);
+        payload.append('soLuongHocVienMax', document.getElementById('soLuongHocVienMax').value);
+        payload.append('hocPhi_dot', document.getElementById('hocPhi_dot').value);
+        payload.append('luongGV_ca', document.getElementById('luongGV_ca').value);
+
+        payload.append('csrfmiddlewaretoken', $('#csrf').val());
+        $.ajax({
+            url: '/addLopHoc/',
+            type: 'POST',
+            data: payload,
+            processData: false,
+            contentType: false,
+            success: function(data){
+                if(data.status == "success"){
+                    alert("Thêm thành công");
+                }
+                else{
+                    alert("Thêm thất bại\n Lỗi: " + data.message);
+                    console.log(data);
+                }
+            },
+            error: function(data){
+                alert("Đã có lỗi xảy ra");
+            }
+        });
+    }
+</script>
+{% endblock %}

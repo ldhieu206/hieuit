@@ -1,0 +1,76 @@
+{% extends "home/admin/baseAdmin.html" %}
+{% block content %}
+    <div class = "container">
+        {% csrf_token %}
+            <input id="csrf" style="display: none" value="{{ csrf_token }}">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mã Phụ Huynh</label>
+                <input type="text" class="form-control" id="maPH" placeholder="Mã phụ huynh">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tên Phụ Huynh</label>
+                <input type="text" class="form-control" id="tenPH" placeholder="Tên phụ huynh">
+            </div>
+            <div class = "">
+                <label for = "khoi">Chọn Học Viên</label>
+                <select id="hocVien_id" class="form-select" multiple aria-label="multiple select example">
+                {% for item in dsHocVien %}
+                    <option value="{{item.maHV}}">{{item.maHV}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Ngày sinh</label>
+                <input type="date" class="form-control" id="ngaySinh" >
+            </div>
+            <div class = "">
+                <label for = "khoi">Giới tính</label>
+                <select class="form-select" multiple aria-label="multiple select example">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Số điện thoại</label>
+                <input type="number" class="form-control" id="sdt1" placeholder="Số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Số zalo</label>
+                <input type="text" class="form-control" id="soZalo" placeholder="Địa chỉ">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="text" class="form-control" id="email" placeholder="Địa chỉ">
+            </div>
+            <button onclick="addPhuHuynh()" type = "submit" class = "btn btn-primary" data-toggle="modal" data-target="#myModal">Thêm</button>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function addPhuHuynh() {
+        var payload = new FormData();
+        payload.append('_token', $('#csrf').val());
+        payload.append('maPH', $('#maPH').val());
+        payload.append('tenPH', $('#tenPH').val());
+        payload.append('hocVien_id', document.getElementById('hocVien_id').value);
+        payload.append('ngaySinh', $('#ngaySinh').val());
+        payload.append('sdt1', $('#sdt1').val());
+        payload.append('soZalo', $('#soZalo').val());
+        payload.append('email', $('#email').val());
+        payload.append('gioiTinh', $('#gioiTinh').val());
+        payload.append('csrfmiddlewaretoken', $('#csrf').val());
+        $.ajax({
+            url: "/addPhuHuynh/",
+            type: 'POST',
+            data: payload,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert('Thêm thành công');
+            },
+            error: function (data) {
+                alert('Thêm thất bại');
+            }
+        });
+    }
+</script>
+{% endblock %}

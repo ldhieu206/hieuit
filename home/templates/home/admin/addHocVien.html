@@ -1,0 +1,72 @@
+{% extends "home/admin/baseAdmin.html" %}
+{% block content %}
+    <div class = "container">
+        {% csrf_token %}
+            <input id="csrf" style="display: none" value="{{ csrf_token }}">
+            <div class = "form-group">
+                <label for = "lopHoc">Mã Học Viên</label>
+                <input type = "text" class = "form-control" id = "maHV" name = "maHV" placeholder = "Nhập mã học viên" required>
+            </div>
+            <div class = "form-group">
+                <label for = "khoi">Tên Học Viên</label>
+                <input type = "text" class = "form-control" id = "name" name = "name" placeholder = "Nhập Tên Học Viên" required>
+            </div>
+            <div class = "">
+                <label for = "khoi">Giới tính</label>
+                <select class="form-select" multiple aria-label="multiple select example">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+            </div>
+            <div class = "form-group">
+                <label for = "ngaySinh">Ngày Sinh</label>
+                <input type = "date" class = "form-control" id = "ngaySinh" name = "ngaySinh" >
+            </div>
+            <div class = "form-group">
+                <label for = "ngayBatDau">Số Điện Thoại</label>
+                <input type = "number" class = "form-control" id = "phone" name = "phone" placeholder = "Nhập số điện thoại">
+            </div>
+            <div class = "form-group">
+                <label for = "ngayKetThuc">Email</label>
+                <input type = "email" class = "form-control" id = "email" name = "ngayKetThuc" placeholder >
+            </div>
+            <div class = "form-group">
+                <label for = "ngayKetThuc">Địa Chỉ</label>
+                <input type = "text" class = "form-control" id = "diaChi" name = "diaChi" placeholder = "Nhập địa chỉ">
+            </div>
+            <div class="form-group">
+                <label for = "password">Password</label>
+                <input type="text" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button onclick="addHocVien()" type = "submit" class = "btn btn-primary" data-toggle="modal" data-target="#myModal">Thêm</button>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function addHocVien() {
+        var payload = new FormData();
+        payload.append('maHV', document.getElementById('maHV').value);
+        payload.append('name', $('#name').val());
+        payload.append('ngaySinh', $('#ngaySinh').val());
+        payload.append('gioiTinh', $('#gioiTinh').val());
+        payload.append('phone', $('#phone').val());
+        payload.append('email', $('#email').val());
+        payload.append('diaChi', $('#diaChi').val());
+        payload.append('password', $('#password').val());
+        payload.append('_token', $('#csrf').val());
+        payload.append('csrfmiddlewaretoken', $('#csrf').val());
+        $.ajax({
+            url: '/addHocVien/',
+            type: 'POST',
+            data: payload,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert('Thêm thành công');
+            },
+            error: function (data) {
+                alert('Thêm thất bại');
+            }
+    })
+    }
+</script>
+{% endblock %}

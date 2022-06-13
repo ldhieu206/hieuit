@@ -1,0 +1,14 @@
+{% extends "home/admin/baseAdmin.html" %}
+    
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Danh Sách Khóa Học</h3>
+        {%for item in dsKhoaHocs%}
+            <h4 class="">{{item.maKH}}</h4>
+            <h4 class="">{{item.tenKH}}</h4>
+            <h4 class="">{{item.moTa}}</h4>
+            <img class="img" src="{{item.img.url}}" alt="">
+            <h4 class="">{{item.ghiChu}}</h4>
+        {%endfor%}
+</div>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends "home/hocVien/baseHV.html" %} 
+{% block title %} Tài Khoản Học Viên
+{%endblock title %} 
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <div class="list-group" id="list-tab" role="tablist">
+        <a
+          class="list-group-item list-group-item-action"
+          id="list-profile-list"
+          data-bs-toggle="list"
+          href="#list-profile"
+          role="tab"
+          aria-controls="list-profile"
+          >Thông Tin Học Viên</a
+        >
+        <a
+          class="list-group-item list-group-item-action"
+          id="list-messages-list"
+          data-bs-toggle="list"
+          href="#list-messages"
+          role="tab"
+          aria-controls="list-messages"
+          >Phụ Huynh</a
+        >
+        <a
+          class="list-group-item list-group-item-action"
+          id="list-settings-list"
+          data-bs-toggle="list"
+          href="#list-settings"
+          role="tab"
+          aria-controls="list-settings"
+          >Lớp Học</a
+        >
+        <a
+          class="list-group-item list-group-item-action"
+          id="list-settings-list"
+          data-bs-toggle="list"
+          href="#list-hocphi"
+          role="tab"
+          aria-controls="list-settings"
+          >Học Phí</a
+        >
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="tab-content" id="nav-tabContent">
+        <div
+          class="tab-pane fade"
+          id="list-home"
+          role="tabpanel"
+          aria-labelledby="list-home-list"
+        >
+          {% comment %} <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1> Thời Khóa Biểu </h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mã Lớp</th>
+                      <th scope="col">Ngày Học</th>
+                      <th scope="col">Ghi Chú</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in tkbs %}
+                    <tr>
+                      <td>{{i.lopHoc_id}}</td>
+                      <td>{{i.ngayHoc}}</td>
+                      <td>{{i.ghiChu}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div> {% endcomment %}
+        </div>
+        <div
+          class="tab-pane fade"
+          id="list-profile"
+          role="tabpanel"
+          aria-labelledby="list-profile-list"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Thông Tin Học Viên</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Mã Học Viên</th>
+                      <th>Tên Học Viên</th>
+                      <th>Ngày Sinh</th>
+                      <th>Địa Chỉ</th>
+                      <th>Số Điện Thoại</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{hocVien.maHV}}</td>
+                      <td>{{hocVien.name}}</td>
+                      <td>{{hocVien.ngaySinh}}</td>
+                      <td>{{hocVien.diaChi}}</td>
+                      <td>{{hocVien.phone}}</td>
+                      <td>{{hocVien.email}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="list-messages"
+          role="tabpanel"
+          aria-labelledby="list-messages-list"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Thông Tin Phụ Huynh</h1>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Mã Phụ Huynh</th>
+                      <th>Tên Phụ Huynh</th>
+                      <th>Số Điện Thoại</th>
+                      <th>Số Điện Thoại Zalo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in phuHuynhs %}
+                    <tr>
+                      <td>{{ item.maPH }}</td>
+                      <td>{{ item.tenPH }}</td>
+                      <td>{{ item.sdt1 }}</td>
+                      <td>{{ item.soZalo }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="list-settings"
+          role="tabpanel"
+          aria-labelledby="list-settings-list"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Thông Tin Lớp Học</h1>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Mã Lớp Học</th>
+                      <th>Mã Giáo Viên</th>
+                      <th>Ca Học</th>
+                      <th>Ngày Bắt Đầu</th>
+                      <th>Ngày Kết Thúc</th>
+                      <th>Học Phí Ca</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in lopHocs %}
+                    <tr>
+                      <td>{{ item.maLop }}</td>
+                      <td>{{ item.giaoVien_id }}</td>
+                      <td>{{ item.caHoc_id }}</td>
+                      <td>{{ item.ngayBatDau }}</td>
+                      <td>{{ item.ngayKetThuc }}</td>
+                      <td>{{ item.hocPhi_ca }}</td>
+                    </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="list-hocphi"
+          role="tabpanel"
+          aria-labelledby="list-hocphi-list"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Học Phí</h1>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Mã Phụ Huynh</th>
+                      <th>Mã Học Viên</th>
+                      <th>Ngày</th>
+                      <th>Số Tiền Đóng</th>
+                      <th>Còn Phải Thanh Toán</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in hocPhis %}
+                    <tr>
+                      <td>{{ item.phuHuynh_id }}</td>
+                      <td>{{ item.hocVien_id }}</td>
+                      <td>{{ item.ngay }}</td>
+                      <td>{{ item.soTienDong }}</td>
+                      <td>{{ item.soChuaThanhToan }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const triggerTabList = document.querySelectorAll("#myTab a");
+    triggerTabList.forEach((triggerEl) => {
+      const tabTrigger = new bootstrap.Tab(triggerEl);
+
+      triggerEl.addEventListener("click", (event) => {
+        event.preventDefault();
+        tabTrigger.show();
+      });
+    });
+  </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    function editHocVien(){
+      const payload = new FormData();
+      payload.append("name",name);
+      payload.append("gioiTinh",gioiTinh);
+      payload.append("ngaySinh",ngaySinh);
+      payload.append("diaChi",diaChi);
+      payload.append("phone",phone);
+      payload.append("email",email);
+      payload.append(
+        "csrfmiddlewaretoken",
+        $("input[name=csrfmiddlewaretoken]").val()
+      );
+    $.ajax({
+      url: "/editHocVien/",
+      type: "POST",
+      data: payload,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        alert("Sửa thành công");
+      },
+      error: function (data) {
+        alert("Sửa thất bại");
+      },
+    });
+    }
+  </script>
+</div>
+
+{% endblock content %}

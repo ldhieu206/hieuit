@@ -1,0 +1,83 @@
+{% extends "home/hocVien/baseHV.html" %} 
+{% block title %} 
+{% endblock title %} 
+{% block content %} 
+{% csrf_token %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Danh Sách Lớp Học</h3>
+        </div>
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+
+                <tr>
+                  <th>Mã Lớp</th>
+                  <th>Tên Lớp</th>
+                  <th>Lịch Học</th>
+                  <th>Học Phí Ca</th>
+                  <th>Giáo Viên</th>
+                  <th>Học Phí</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in dsLopHoc%}
+                <tr>
+                  <td>{{ item.maLop }}</td>
+                  <td>{{ item.tenLop }}</td>
+                  <td>{{ item.lichHoc }}</td>
+                  <td>{{ item.hocPhi_ca }}</td>
+                  <td>{{ item.giaoVien_id }}</td>
+                  <td>{{ item.hocPhi_dot }}</td>
+                  <td>
+                    <button
+                      onclick="dangKy('{{ item.maLop }}')"
+                      id="btn"
+                      class="btn btn-primary"
+                      type="submit"
+                      data-toggle="modal"
+                      data-target="#myModal"
+                    >
+                      Đăng ký
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  function dangKy(maLop) {
+    const payload = new FormData();
+    payload.append("maLop", maLop);
+    payload.append(
+      "csrfmiddlewaretoken",
+      $("input[name=csrfmiddlewaretoken]").val()
+    );
+    $.ajax({
+      url: "/dangKyHoc",
+      type: "POST",
+      data: payload,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        alert(data.message);
+      },
+      error: function (data) {
+        alert(data.message);
+      },
+    });
+  }
+</script>
+{% endblock %}

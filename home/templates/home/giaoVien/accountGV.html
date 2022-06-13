@@ -1,0 +1,62 @@
+{% extends "home/giaoVien/indexGV.html" %} 
+{% block title %} {% endblock title%} 
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Thông Tin Giáo Viên</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Mã Giáo Viên</th>
+            <th>Tên Giáo Viên</th>
+            <th>Giới Tính</th>
+            <th>Số Điện Thoại</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a class="nav-link active" href="">{{giaoVien.maGV}}</a>
+            </td>
+            <td>{{giaoVien.tenGV}}</td>
+            <td>{{giaoVien.gioiTinh}}</td>
+            <td>{{giaoVien.sdt}}</td>
+            <td>{{giaoVien.email}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% comment %} 
+
+<script>
+
+function send_email(MaHV) {
+  fetch('/send_email/', {
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    alert(data.message);
+  });
+}
+
+</script> {% endcomment %}
